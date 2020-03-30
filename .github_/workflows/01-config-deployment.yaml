@@ -1,0 +1,21 @@
+name: Minecraft Config CI/CD
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Test SSH Command
+      uses: appleboy/ssh-action@v0.0.7
+      with:
+        # Goes into your configuration files and gets the latest changes from github
+        script: cd ~/mineconf && git stash && git pull && sudo systemctl restart minecraft && ls -la
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}

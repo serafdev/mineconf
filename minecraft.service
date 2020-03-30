@@ -1,0 +1,17 @@
+[Unit]
+Description=Minecraft Server
+After=network.target
+
+[Service]
+User=minecraft
+Group=minecraft
+
+Type=Simple
+
+WorkingDirectory=/opt/minecraft
+ExecStart=/bin/sh -c "LD_LIBRARY_PATH=. ./bedrock_server"
+TimeoutStopSec=20
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
